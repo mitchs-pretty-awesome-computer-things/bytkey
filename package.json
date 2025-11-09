@@ -1,11 +1,46 @@
 {
-  "name": "bytkey",
+  "version": "0.1.0",
+  "name": "@mpact/bytkey",
+  "description": "",
+  "homepage": "https://bytkey.com",
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/mitchs-pretty-awesome-computer-things/bytkey.git"
+	},
+  "bugs": {
+		"url": "https://github.com/mitchs-pretty-awesome-computer-things/bytkey/issues"
+	},
+  "keywords": ["code", "codes", "key", "keys", "encoded", "trial", "redemption", "esm", "typescript", "bun", "nodejs", "deno"],
+  "author": {
+		"name": "Mitchell Adair",
+		"url": "https://github.com/mitchwadair"
+	},
+  "license": "MIT",
   "module": "mod.ts",
   "type": "module",
+  "main": "./dist/mod.js",
+	"types": "./dist/mod.d.ts",
+  "exports": {
+		".": {
+			"types": "./dist/mod.d.ts",
+			"import": "./dist/mod.js"
+		}
+	},
+  "scripts": {
+		"fmt": "bunx biome check --write",
+		"build": "bunx tsc -p tsconfig.build.json",
+		"clean": "rm -rf ./dist",
+		"prepublishOnly": "bun run clean && bun run build"
+	},
+  "files": ["dist", "README.md", "LICENSE"],
   "devDependencies": {
+    "@biomejs/biome": "2.3.4",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
-  }
+  },
+  "publishConfig": {
+		"access": "public"
+	}
 }
