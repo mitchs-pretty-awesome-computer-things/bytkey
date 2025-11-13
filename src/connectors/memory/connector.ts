@@ -3,7 +3,7 @@ import { InMemoryRedemptionStore } from "./redemption-store";
 import { InMemorySchemaStore } from "./schema-store";
 
 export function createInMemoryConnector(
-	init: Array<SchemaDef>,
+	init?: Array<SchemaDef>,
 ): BytKeyConnector {
 	return {
 		redemptionStore: new InMemoryRedemptionStore(),

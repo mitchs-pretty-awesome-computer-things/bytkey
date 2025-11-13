@@ -3,7 +3,7 @@ import type { BytKeySchemaStore, SchemaDef } from "../../types";
 export class InMemorySchemaStore implements BytKeySchemaStore {
 	private schemas: Record<string, SchemaDef>;
 
-	constructor(init: Array<SchemaDef>) {
+	constructor(init: Array<SchemaDef> = []) {
 		this.schemas = {};
 		for (const def of init) {
 			const id = "";
