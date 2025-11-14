@@ -11,11 +11,11 @@ export class InMemorySchemaStore implements BytKeySchemaStore {
 		}
 	}
 
-	registerSchema(id: string, schemaDef: SchemaDef) {
+	async registerSchema(id: string, schemaDef: SchemaDef) {
 		this.schemas[id] = schemaDef;
 	}
 
-	getByID(id: string) {
+	async getByID(id: string) {
 		const schemaDef = this.schemas[id];
 		if (schemaDef) {
 			return { id, ...schemaDef };
@@ -23,7 +23,7 @@ export class InMemorySchemaStore implements BytKeySchemaStore {
 		return null;
 	}
 
-	getByName(name: string) {
+	async getByName(name: string) {
 		const entries = Object.entries(this.schemas).find(
 			([, schemaDef]) => schemaDef.name === name,
 		);

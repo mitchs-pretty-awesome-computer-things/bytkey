@@ -13,9 +13,9 @@ type Schema = {
 } & SchemaDef;
 
 export interface BytKeySchemaStore {
-	registerSchema(id: string, schemaDef: SchemaDef): Promise<void> | void;
-	getByName(name: string): Promise<Schema | null> | Schema | null;
-	getByID(id: string): Promise<Schema | null> | Schema | null;
+	registerSchema(id: string, schemaDef: SchemaDef): Promise<void>;
+	getByName(name: string): Promise<Schema | null>;
+	getByID(id: string): Promise<Schema | null>;
 }
 
 type ExtraData = Record<string, string | number | boolean>;
@@ -42,7 +42,7 @@ export interface BytKeyRedemptionStore {
 		key: string,
 		schema: T,
 		extra?: ExtraData,
-	): Promise<Redemption<T>> | Redemption<T>;
+	): Promise<void>;
 	// TODO what else?
 }
 
@@ -54,4 +54,5 @@ export type BytKeyConnector = {
 export type BytKeyInit = {
 	secret: string;
 	connector: BytKeyConnector;
+	alphabet?: string;
 };

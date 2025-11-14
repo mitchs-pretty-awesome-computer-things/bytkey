@@ -1,43 +1,21 @@
-import type {
-	BytKeyRedemptionStore,
-	RedemptionData,
-	SchemaDef,
-} from "../../types";
+import { DEFAULT_ALPHABET } from "../../bytkey";
+import type { BytKeyRedemptionStore, SchemaDef } from "../../types";
+import { decodeKey } from "../../util/keys";
 
 export class InMemoryRedemptionStore implements BytKeyRedemptionStore {
-	private redemptions: Array<string>;
+	private redemptions: Map<string, boolean>;
 
-	constructor() {
-		this.redemptions = [];
+	constructor(private alphabet: string = DEFAULT_ALPHABET) {
+		this.redemptions = new Map<string, boolean>();
 	}
 
-	// TODO actually parse and store key data
-	redeem<T extends SchemaDef>(
-		key: string,
-		schema: T,
-		extra?: Record<string, string | number | boolean>,
-	) {
-		this.redemptions.push(`${this.redemptions.length}`);
-		const redemptionData = {} as RedemptionData<T>;
-		for (const field of schema.fields) {
-			const name = field.name as keyof RedemptionData<T>;
-			switch (field.kind) {
-				case "bool":
-					redemptionData[name] = true as RedemptionData<T>[typeof name];
-					break;
-				case "enum":
-					redemptionData[name] = field
-						.values[0] as RedemptionData<T>[typeof name];
-					break;
-				case "int":
-					redemptionData[name] = 1 as RedemptionData<T>[typeof name];
-					break;
-			}
+	async redeem<T extends SchemaDef>(key: string, schema: T) {
+		const { id } = decodeKey(key, schema, this.alphabet);
+
+		if (this.redemptions.get(id)) {
+			throw new Error("Key has already been redeemed");
+		} else {
+			this.redemptions.set(id, true);
 		}
-		return {
-			id: "",
-			...extra,
-			...redemptionData,
-		};
 	}
 }
