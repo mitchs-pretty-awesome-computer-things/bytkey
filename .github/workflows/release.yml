@@ -1,0 +1,162 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to validate against (e.g. v0.1.0)"
+        required: true
+
+env:
+  RELEASE_TAG: ${{ github.event.release.tag_name || github.event.inputs.tag }}
+
+jobs:
+  quality:
+    name: Quality checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Check formatting
+        run: bun run fmt:check
+
+      - name: Type check
+        run: bun run typecheck
+
+      - name: Build
+        run: bun run build
+
+  test-matrix:
+    name: Test matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime: [node, bun, deno]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        if: matrix.runtime == 'node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Setup Bun
+        if: matrix.runtime == 'bun'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Deno
+        if: matrix.runtime == 'deno'
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Test on Node
+        if: matrix.runtime == 'node'
+        run: npm install && npm run test
+
+      - name: Test on Bun
+        if: matrix.runtime == 'bun'
+        run: bun install --frozen-lockfile && bun run test
+
+      - name: Test on Deno
+        if: matrix.runtime == 'deno'
+        run: deno run -A npm:vitest run
+
+  publish-npm:
+    name: Publish to NPM
+    needs: [quality, test-matrix]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org/
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Validate release versions
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          PKG_VERSION=$(jq -r '.version' package.json)
+          JSR_VERSION=$(jq -r '.version' jsr.json)
+          if [ "$VERSION" != "$PKG_VERSION" ] || [ "$VERSION" != "$JSR_VERSION" ]; then
+            echo "Release tag/version mismatch: tag=$VERSION package.json=$PKG_VERSION jsr.json=$JSR_VERSION"
+            exit 1
+          fi
+
+      - name: Build package
+        run: npm run prepublishOnly
+
+      - name: Publish to NPM
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-jsr:
+    name: Publish to JSR
+    needs: [quality, test-matrix]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Validate release versions
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          PKG_VERSION=$(jq -r '.version' package.json)
+          JSR_VERSION=$(jq -r '.version' jsr.json)
+          if [ "$VERSION" != "$PKG_VERSION" ] || [ "$VERSION" != "$JSR_VERSION" ]; then
+            echo "Release tag/version mismatch: tag=$VERSION package.json=$PKG_VERSION jsr.json=$JSR_VERSION"
+            exit 1
+          fi
+
+      - name: Publish to JSR
+        run: npx jsr publish

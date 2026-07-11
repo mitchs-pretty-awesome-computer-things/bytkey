@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["import", "typescript", "unicorn", "oxc"],
+  "env": { "builtin": true, "node": true, "es2022": true },
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {},
+  "overrides": [
+    {
+      "files": ["*.test.ts", "*.spec.ts"],
+      "plugins": ["vitest"],
+      "env": { "vitest": true }
+    }
+  ]
+}

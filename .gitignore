@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Coverage
+coverage/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+
+# Editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Lockfiles (Bun is the primary runtime; keep bun.lockb tracked)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
