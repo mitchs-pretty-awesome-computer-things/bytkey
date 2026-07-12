@@ -11,3 +11,7 @@ The five canonical roles map to the default label strings (`needs-triage`, `need
 ### Domain docs
 
 Single-context repo: read `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+### Code style
+
+Project-specific TypeScript conventions (array syntax, discriminated union tags, etc.) live in `docs/code-style.md`. Read it before writing or reviewing code.
