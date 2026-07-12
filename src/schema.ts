@@ -42,15 +42,21 @@ export interface SchemaDef {
   /** Human-readable schema name. Used as the lookup key in {@link SchemaStore.getByName}. */
   readonly name: string;
 
-  /** Ordered fields that define the code payload shape. */
+  /**
+   * Fields that define the code payload shape.
+   *
+   * Field order in the definition is not semantically significant: fields are
+   * canonicalized alphabetically by name for id generation and encoding.
+   */
   readonly fields: ReadonlyArray<DataField>;
 }
 
 /**
- * A schema as stored by a {@link SchemaStore}: a definition plus a stable ID.
+ * A schema as stored by a {@link SchemaStore}: a definition plus its stable,
+ * computed ID.
  */
 export interface Schema extends SchemaDef {
-  /** Stable store-assigned identifier. */
+  /** Stable identifier computed from the schema definition. */
   readonly id: string;
 }
 
@@ -64,11 +70,11 @@ export interface SchemaStore {
   /**
    * Register a schema.
    *
-   * Implementations must treat repeated registration of the same schema as a
-   * no-op. Registering a different schema with an already-registered `id` or
-   * `name` is an error.
+   * The store computes the schema id from the definition. Implementations must
+   * treat repeated registration of the same schema as a no-op. Registering a
+   * different schema with an already-registered `name` is an error.
    */
-  registerSchema(schema: Schema): Promise<void>;
+  registerSchema(schemaDef: SchemaDef): Promise<void>;
 
   /** Look up a schema by its unique name. Returns `null` if not found. */
   getByName(name: string): Promise<Schema | null>;

@@ -14,3 +14,7 @@ export type {
   SchemaStore,
   QueryableSchemaStore,
 } from "./schema.ts";
+
+export type { FieldValue, Redemption, RedemptionData, RedemptionStore } from "./redemption.ts";
+
+export { getSchemaID } from "./util/schema.ts";
