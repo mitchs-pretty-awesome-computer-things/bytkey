@@ -71,13 +71,10 @@ export interface SchemaStore {
    * Register a schema.
    *
    * The store computes the schema id from the definition. Implementations must
-   * treat repeated registration of the same schema as a no-op. Registering a
-   * different schema with an already-registered `name` is an error.
+   * treat repeated registration of the same schema as a no-op; the same
+   * definition always produces the same id.
    */
   registerSchema(schemaDef: SchemaDef): Promise<void>;
-
-  /** Look up a schema by its unique name. Returns `null` if not found. */
-  getByName(name: string): Promise<Schema | null>;
 
   /** Look up a schema by its stable ID. Returns `null` if not found. */
   getByID(id: string): Promise<Schema | null>;
@@ -92,4 +89,7 @@ export interface SchemaStore {
 export interface QueryableSchemaStore extends SchemaStore {
   /** Return all registered schemas in an implementation-defined order. */
   listSchemas(): Promise<ReadonlyArray<Schema>>;
+
+  /** Return every registered schema with the given name. */
+  findSchemasByName(name: string): Promise<ReadonlyArray<Schema>>;
 }

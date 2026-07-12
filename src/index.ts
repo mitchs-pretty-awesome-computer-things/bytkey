@@ -17,4 +17,13 @@ export type {
 
 export type { FieldValue, Redemption, RedemptionData, RedemptionStore } from "./redemption.ts";
 
+export {
+  AbstractRedemptionStore,
+  AbstractSchemaStore,
+  AlreadyRedeemedError,
+  type BytKeyConnector,
+  SchemaNotFoundError,
+  StoreError,
+} from "./connector.ts";
+
 export { getSchemaID } from "./util/schema.ts";
