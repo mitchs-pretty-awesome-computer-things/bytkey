@@ -15,3 +15,19 @@ Single-context repo: read `CONTEXT.md` and `docs/adr/` at the repo root. See `do
 ### Code style
 
 Project-specific TypeScript conventions (array syntax, discriminated union tags, etc.) live in `docs/code-style.md`. Read it before writing or reviewing code.
+
+### Commit messages
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) prefixes. Common prefixes for this repo:
+
+- `feat:` — new feature or capability
+- `fix:` — bug fix
+- `docs:` — documentation-only changes
+- `style:` — formatting, missing semicolons, etc.; no code change
+- `refactor:` — code change that neither fixes a bug nor adds a feature
+- `perf:` — performance improvement
+- `test:` — adding or correcting tests
+- `chore:` — build process, dependency updates, or other tooling changes
+- `ci:` — continuous integration changes
+
+Keep the summary concise and in the imperative mood.
