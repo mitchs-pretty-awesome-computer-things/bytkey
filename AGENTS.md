@@ -16,9 +16,9 @@ Single-context repo: read `CONTEXT.md` and `docs/adr/` at the repo root. See `do
 
 Project-specific TypeScript conventions (array syntax, discriminated union tags, etc.) live in `docs/code-style.md`. Read it before writing or reviewing code.
 
-### Commit messages
+### Pull request titles
 
-Use [Conventional Commits](https://www.conventionalcommits.org/) prefixes. Common prefixes for this repo:
+Use [Conventional Commits](https://www.conventionalcommits.org/) prefixes for pull request titles. We squash-merge, so the PR title becomes the final commit message. Common prefixes:
 
 - `feat:` — new feature or capability
 - `fix:` — bug fix
