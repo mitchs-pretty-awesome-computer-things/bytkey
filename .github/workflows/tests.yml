@@ -25,7 +25,7 @@ jobs:
           node-version: lts/*
 
       - name: Setup Bun
-        if: matrix.runtime == 'bun'
+        if: matrix.runtime == 'node' || matrix.runtime == 'bun'
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -38,7 +38,7 @@ jobs:
 
       - name: Test on Node
         if: matrix.runtime == 'node'
-        run: npm install && npm run test
+        run: bun install --frozen-lockfile && npm run test
 
       - name: Test on Bun
         if: matrix.runtime == 'bun'
