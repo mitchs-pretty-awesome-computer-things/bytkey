@@ -28,7 +28,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly",
     "lint": "oxlint --deny-warnings .",
     "lint:fix": "oxlint --fix .",
     "fmt": "oxfmt .",

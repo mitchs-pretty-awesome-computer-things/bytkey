@@ -10,7 +10,7 @@
  */
 
 import { createHash } from "node:crypto";
-import type { DataField, SchemaDef } from "../schema.ts";
+import type { DataField, SchemaDef } from "../schema";
 
 /**
  * Convert a field into a stable, serialization-friendly shape.

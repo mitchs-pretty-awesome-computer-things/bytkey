@@ -13,9 +13,9 @@ export type {
   SchemaDef,
   SchemaStore,
   QueryableSchemaStore,
-} from "./schema.ts";
+} from "./schema";
 
-export type { FieldValue, QueryableRedemptionStore, Redemption, RedemptionData, RedemptionStore } from "./redemption.ts";
+export type { FieldValue, QueryableRedemptionStore, Redemption, RedemptionData, RedemptionStore } from "./redemption";
 
 export {
   AbstractRedemptionStore,
@@ -24,6 +24,6 @@ export {
   type BytKeyConnector,
   SchemaNotFoundError,
   StoreError,
-} from "./connector.ts";
+} from "./connector";
 
-export { getSchemaID } from "./util/schema.ts";
+export { getSchemaID } from "./util/schema";

@@ -2,9 +2,9 @@
  * Connector bundle and shared error types for the BytKey store abstraction.
  */
 
-import type { Redemption, RedemptionData, RedemptionStore } from "./redemption.ts";
-import type { Schema, SchemaDef, SchemaStore } from "./schema.ts";
-import { getSchemaID } from "./util/schema.ts";
+import type { Redemption, RedemptionData, RedemptionStore } from "./redemption";
+import type { Schema, SchemaDef, SchemaStore } from "./schema";
+import { getSchemaID } from "./util/schema";
 
 /**
  * A connector bundles the schema and redemption stores used by BytKey core.

@@ -5,7 +5,7 @@
  * The store only owns atomic persistence and lookup of redemption records.
  */
 
-import type { BoolField, DataField, EnumField, IntField, Schema, SchemaDef } from "./schema.ts";
+import type { BoolField, DataField, EnumField, IntField, Schema, SchemaDef } from "./schema";
 
 /**
  * The decoded value type for a single schema field.

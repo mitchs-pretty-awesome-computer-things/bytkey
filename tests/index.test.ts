@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BYTKEY_VERSION } from "../src/index.ts";
+import { BYTKEY_VERSION } from "../src/index";
 
 describe("bytkey entrypoint", () => {
   it("imports without errors", () => {
