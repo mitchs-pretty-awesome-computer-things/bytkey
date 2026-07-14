@@ -79,3 +79,14 @@ export interface RedemptionStore<Extra = unknown> {
   /** Look up a redemption by code id. Returns `null` if not found. */
   getRedemption<T extends Schema>(id: string, schema: T): Promise<Redemption<T, Extra> | null>;
 }
+
+/**
+ * Optional extension for backends that can enumerate redemption records.
+ *
+ * Admin/debug tooling can use this without forcing minimal implementations to
+ * support listing.
+ */
+export interface QueryableRedemptionStore<Extra = unknown> extends RedemptionStore<Extra> {
+  /** Return all stored redemptions in an implementation-defined order. */
+  listRedemptions(): Promise<ReadonlyArray<Redemption<Schema, Extra>>>;
+}

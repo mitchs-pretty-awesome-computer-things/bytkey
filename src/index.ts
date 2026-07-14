@@ -15,7 +15,7 @@ export type {
   QueryableSchemaStore,
 } from "./schema.ts";
 
-export type { FieldValue, Redemption, RedemptionData, RedemptionStore } from "./redemption.ts";
+export type { FieldValue, QueryableRedemptionStore, Redemption, RedemptionData, RedemptionStore } from "./redemption.ts";
 
 export {
   AbstractRedemptionStore,
