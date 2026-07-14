@@ -46,4 +46,4 @@ jobs:
 
       - name: Test on Deno
         if: matrix.runtime == 'deno'
-        run: deno run -A npm:vitest run
+        run: deno install && deno run -A npm:vitest run
