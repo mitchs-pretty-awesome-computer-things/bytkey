@@ -15,7 +15,13 @@ export type {
   QueryableSchemaStore,
 } from "./schema";
 
-export type { FieldValue, QueryableRedemptionStore, Redemption, RedemptionData, RedemptionStore } from "./redemption";
+export type {
+  FieldValue,
+  QueryableRedemptionStore,
+  Redemption,
+  RedemptionData,
+  RedemptionStore,
+} from "./redemption";
 
 export {
   AbstractRedemptionStore,
