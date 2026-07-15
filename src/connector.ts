@@ -51,11 +51,10 @@ export class SchemaNotFoundError extends StoreError {
 /**
  * Thrown when attempting to redeem a code that has already been redeemed.
  */
-export class AlreadyRedeemedError<Extra = unknown> extends StoreError {
+export class AlreadyRedeemedError extends StoreError {
   constructor(
     message: string,
     public readonly id: string,
-    public readonly redemption?: Redemption<Schema, Extra> | undefined,
     options?: ErrorOptions | undefined,
   ) {
     super(message, options);

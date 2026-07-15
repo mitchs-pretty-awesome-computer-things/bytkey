@@ -2,7 +2,10 @@
   "name": "@mpact/bytkey",
   "version": "0.0.1",
   "license": "MIT",
-  "exports": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./in-memory": "./src/connectors/in-memory.ts"
+  },
   "publish": {
     "include": ["LICENSE", "README.md", "src/**/*.ts"],
     "exclude": ["docs", "tests", "dist", "node_modules"]

@@ -21,6 +21,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./in-memory": {
+      "types": "./dist/connectors/in-memory.d.ts",
+      "import": "./dist/connectors/in-memory.js"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {
