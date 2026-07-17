@@ -11,11 +11,7 @@ import {
   AlreadyRedeemedError,
   type BytKeyConnector,
 } from "../connector";
-import type {
-  QueryableRedemptionStore,
-  Redemption,
-  RedemptionData,
-} from "../redemption";
+import type { QueryableRedemptionStore, Redemption, RedemptionData } from "../redemption";
 import type { QueryableSchemaStore, Schema, SchemaDef } from "../schema";
 
 /**
@@ -24,10 +20,7 @@ import type { QueryableSchemaStore, Schema, SchemaDef } from "../schema";
  * Also implements {@link QueryableSchemaStore} so admin/debug tooling can
  * enumerate registered schemas without extra infrastructure.
  */
-export class InMemorySchemaStore
-  extends AbstractSchemaStore
-  implements QueryableSchemaStore
-{
+export class InMemorySchemaStore extends AbstractSchemaStore implements QueryableSchemaStore {
   readonly #schemas = new Map<string, Schema>();
 
   protected async persistSchema(schema: Schema): Promise<void> {
@@ -43,9 +36,7 @@ export class InMemorySchemaStore
   }
 
   async findSchemasByName(name: string): Promise<ReadonlyArray<Schema>> {
-    return Array.from(this.#schemas.values()).filter(
-      (schema) => schema.name === name,
-    );
+    return Array.from(this.#schemas.values()).filter((schema) => schema.name === name);
   }
 }
 
@@ -70,10 +61,7 @@ export class InMemoryRedemptionStore<Extra = unknown>
     extra?: Extra,
   ): Promise<Redemption<T, Extra>> {
     if (await this.isRedeemed(id)) {
-      throw new AlreadyRedeemedError(
-        `Code ${id} has already been redeemed`,
-        id,
-      );
+      throw new AlreadyRedeemedError(`Code ${id} has already been redeemed`, id);
     }
 
     const redemption = this.makeRedemption(id, schema, data, extra);
@@ -119,13 +107,11 @@ export interface InMemoryConnector<Extra = unknown> extends BytKeyConnector {
  * @param options.schemas - Schemas to register before the connector is returned.
  * Useful for tests and for deployments with a static, known schema catalog.
  */
-export async function inMemoryConnector<Extra = unknown>(
-  options?: { readonly schemas?: ReadonlyArray<SchemaDef> },
-): Promise<InMemoryConnector<Extra>> {
+export async function inMemoryConnector<Extra = unknown>(options?: {
+  readonly schemas?: ReadonlyArray<SchemaDef>;
+}): Promise<InMemoryConnector<Extra>> {
   const schemaStore = new InMemorySchemaStore();
-  await Promise.all(
-    (options?.schemas ?? []).map((schema) => schemaStore.registerSchema(schema)),
-  );
+  await Promise.all((options?.schemas ?? []).map((schema) => schemaStore.registerSchema(schema)));
 
   return {
     schemaStore,
